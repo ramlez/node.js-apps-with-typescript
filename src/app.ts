@@ -2,32 +2,26 @@ import DbClient = require("./common/DbClient");
 
 class App {
     public async start() {
-        console.log("Starting application...2 + 1");
+        console.log("Starting application...");
 
         try {
             let db = await DbClient.connect();
-
+            
+            console.log("Trying to connect second time...");
+            
+            db = await DbClient.connect();
+            
+            console.log("----------------------------------------");
+            console.log("Trying to save some a document...");
+            
             let results = await db.collection("todo").insertOne({
                 topic: "learn angular.js", progress: 10
             });
 
-            console.log(results.insertedId);
-
-            let results2 = await db.collection("todo").insertMany([
-                {  topic: "learn typescript", progress: 10 },
-                {  topic: "learn node.js", progress: 10 }
-            ]);
-
-            console.log(results2.insertedIds);
-
-            let docs = await db.collection("todo").find().toArray();
-
-            console.log(docs);
-            
+            console.log(`Document saved. Inserted ID: ${results.insertedId}`);
             
         } catch (error) {
             console.log("Unable to connect to db");
-            
         }
     }
 }
