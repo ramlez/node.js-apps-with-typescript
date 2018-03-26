@@ -1,15 +1,16 @@
 import DbClient = require("./common/DbClient");
+const packageJSON = require("../package.json");
 
 class App {
     public async start() {
         console.log("Starting application...");
 
         try {
-            let db = await DbClient.connect();
+            let db = await DbClient.connect(packageJSON.name);
             
             console.log("Trying to connect second time...");
             
-            db = await DbClient.connect();
+            db = await DbClient.connect(packageJSON.name);
             
             console.log("----------------------------------------");
             console.log("Trying to save some a document...");
